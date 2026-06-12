@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulse Team</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0b0b0f;
+    color:white;
+    font-family:'Rajdhani',sans-serif;
+}
+
+/* background */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at top, rgba(255,0,60,.10), transparent 40%),
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size:100% 100%, 40px 40px, 40px 40px;
+    pointer-events:none;
+}
+
+.demo-tag{
+    position:fixed;
+    right:20px;
+    top:20px;
+    padding:10px 14px;
+    border:1px solid #333;
+    background:#141418;
+    color:#aaa;
+    font-weight:700;
+    z-index:1000;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:40px;
+}
+
+.hero{
+    background:#121218;
+    border:1px solid #222;
+    border-radius:14px;
+    padding:30px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:52px;
+    letter-spacing:4px;
+}
+
+.hero p{
+    color:#aaa;
+}
+
+/* PLAYERS */
+.players{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin-top:30px;
+}
+
+.card{
+    background:#121218;
+    border:1px solid #222;
+    border-radius:14px;
+    padding:18px;
+    cursor:pointer;
+    transition:0.25s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    border-color:#ff003c;
+    box-shadow:0 10px 25px rgba(0,0,0,.5);
+}
+
+.nick{
+    font-size:22px;
+    font-weight:700;
+}
+
+.role{
+    color:#aaa;
+    margin-top:6px;
+}
+
+.captain{
+    color:#ff3b3b;
+    font-weight:800;
+}
+
+/* MODAL */
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:#121218;
+    padding:22px;
+    border-radius:14px;
+    width:340px;
+    border:1px solid #333;
+}
+
+.close{
+    float:right;
+    cursor:pointer;
+    color:#aaa;
+}
+
+.stat{
+    display:flex;
+    justify-content:space-between;
+    margin-top:10px;
+    color:#ccc;
+}
+
+.small{
+    margin-top:10px;
+    color:#888;
+    font-size:13px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="demo-tag">DEMO SITE</div>
+
+<div class="container">
+
+<div class="hero">
+<h1>PULSE TEAM</h1>
+<p>CS2 Roster •</p>
+</div>
+
+<!-- PLAYERS -->
+<div class="players">
+
+<div class="card" onclick="openModal('podsrachnik','Kazakhstan','Rifler / CAPTAIN','1.13','64%','92')">
+<div class="nick">podsrachnik</div>
+<div class="role">rifler / <span class="captain">CAPTAIN</span></div>
+</div>
+
+<div class="card" onclick="openModal('asekruut','Russia','Rifler / Entry Fragger','1.10','58%','88')">
+<div class="nick">asekruut</div>
+<div class="role">rifler / entry (pusher)</div>
+</div>
+
+<div class="card" onclick="openModal('Morphh','Russia','Rifler / Support','0.92','55%','84')">
+<div class="nick">Morphh</div>
+<div class="role">rifler / assistant</div>
+</div>
+
+<div class="card" onclick="openModal('Player','TBD','player','0','0%','0')">
+<div class="nick">Player</div>
+<div class="role">player</div>
+</div>
+
+<div class="card" onclick="openModal('Player','TBD','player','0','0%','0')">
+<div class="nick">Player</div>
+<div class="role">player</div>
+</div>
+
+</div>
+
+<!-- COACH -->
+<div class="hero">
+<h2>COACH</h2>
+<p>NONS • 🇷🇺 Russia</p>
+</div>
+
+<!-- LEAGUES -->
+<div class="hero">
+<h2>TOURNAMENTS / LEAGUES</h2>
+<p style="color:#777;">
+No official tournaments played yet.<br>
+Team is currently in testing phase.
+</p>
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal()">✖</span>
+
+<h2 id="name"></h2>
+<p id="role"></p>
+
+<div class="stat"><span>K/D</span><span id="kd"></span></div>
+<div class="stat"><span>Win Rate</span><span id="wr"></span></div>
+<div class="stat"><span>ADR</span><span id="adr"></span></div>
+
+<div class="small" id="extra"></div>
+
+</div>
+</div>
+
+<script>
+
+function openModal(n,r,role,kd,wr,adr){
+    document.getElementById("modal").style.display="flex";
+    document.getElementById("name").innerText=n;
+    document.getElementById("role").innerText=role + " • " + r;
+
+    document.getElementById("kd").innerText=kd;
+    document.getElementById("wr").innerText=wr;
+    document.getElementById("adr").innerText=adr;
+
+    document.getElementById("extra").innerText =
+        "Tournament history: None • Status: Testing • Region: CIS";
+}
+
+function closeModal(){
+    document.getElementById("modal").style.display="none";
+}
+
+window.onclick=function(e){
+    if(e.target.classList.contains("modal")){
+        closeModal();
+    }
+}
+
+</script>
+
+</body>
+</html>
